@@ -1,0 +1,21 @@
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%%! -smp enable -sname factorial -mnesia debug verbose
+main([Arg]) ->
+    case Arg of
+        "html" ->
+            {ok, ErlangFiles} = file:list_dir("./erlang"),
+            [erlang_output_html(File) || File <- ErlangFiles],
+            {ok, NovaFiles} = file:list_dir("./nova"),
+            [nova_output_html(File) || File <- NovaFiles];
+        Arg ->
+            io:format("Arg ~p not supported~n", [Arg])
+    end.
+
+erlang_output_html(File) ->
+    Filename = filename:rootname(File),
+    os:cmd("pandoc " ++ "./erlang/" ++ File ++ " -f markdown -t html  -s -o output/" ++ Filename ++ ".html --highlight-style tango").
+
+nova_output_html(File) ->
+    Filename = filename:rootname(File),
+    os:cmd("pandoc " ++ "./nova/" ++ File ++ " -f markdown -t html -s -o output/" ++ Filename ++ ".html --highlight-style tango").
