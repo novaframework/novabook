@@ -40,8 +40,8 @@ In Nova we can also have explicit routing with that is that an endpoint will go 
 #{prefix => "",
   security => false,
   routes => [{"/user/:userid", { my_first_nova_user_controller, get_user}, #{methods => [get]}},
-{"/user/:userid", { my_first_nova_user_controller, update_user}, #{methods => [put]}},
-{"/user/:userid", { my_first_nova_user_controller, delete_user}, #{methods => [delete]}}]
+             {"/user/:userid", { my_first_nova_user_controller, update_user}, #{methods => [put]}},
+             {"/user/:userid", { my_first_nova_user_controller, delete_user}, #{methods => [delete]}}]
  }.
 ```
 This routing configuration will allow us to decide on method what we want to do at an endpoint. Novas routing is little different from cowboys routing. That is we can have multiple paths that are the same but methods are different.
@@ -49,5 +49,25 @@ This routing configuration will allow us to decide on method what we want to do 
 One of the reasons we choosed to do this way was that we didn't want to match against methods in our controllers. It would be nice if we knew what we wanted to do in the controller depending on endpoint and method.
 
 The routing file in the end will be a map on what paths goes to what module and functions.
+
+### Static content ###
+
+In routing we can also add endpoints for static content.
+
+```erlang
+#{prefix => "",
+  security => false,
+  routes => [{"/user/:userid", { my_first_nova_user_controller, get_user}, #{methods => [get]}},
+             {"/user/:userid", { my_first_nova_user_controller, update_user}, #{methods => [put]}},
+             {"/user/:userid", { my_first_nova_user_controller, delete_user}, #{methods => [delete]}}],
+  statics => [
+             {"/www/admin", "assets/admin.html"}
+            ]
+ }.
+```
+
+In this routing configuration we have added an endpoint to `/www/admin` that points to a file called `admin.html`. When someone goes to `/www/admin`Nova will serve `admin.html`.
+
+To serve these files they need to be in priv, but in any directory structure as you want.
 
 ---
