@@ -224,9 +224,12 @@
 <li><a href="#pre-req">Pre req</a></li>
 <li><a href="#installing-nova">Installing Nova</a></li>
 <li><a href="#what-did-we-get">What did we get?</a></li>
-<li><a href="#controllers-views">Controllers &amp; Views</a></li>
 </ul></li>
-<li><a href="#adding-auth-and-different-views">Adding auth and different views</a></li>
+<li><a href="#controllers-views">Controllers &amp; Views</a>
+<ul>
+<li><a href="#views">Views</a></li>
+<li><a href="#controllers">Controllers</a></li>
+</ul></li>
 <li><a href="#routing">Routing</a></li>
 <li><a href="#plugins">Plugins</a>
 <ul>
@@ -328,7 +331,10 @@
 <p>Security is if you want any way to auth the request. Change security to {Module, Function} instead of false if you want to have a auth module.</p>
 <p>Routes is a tuple {PATH, { MODULE, FUNCTION }, OPTIONS}. If we break down the file above it will go to <code>http://localhost:8080/</code> and it will only allow method GET. When someone is doing a GET agains this it will use module my_first_nova_main_controller with function index.</p>
 <p>This is the configurations that is for Nova.</p>
-<h3 id="controllers-views">Controllers &amp; Views</h3>
+<hr />
+<h2 id="controllers-views">Controllers &amp; Views</h2>
+<p>Controllers and Views are the VC part of the framework. Nova haven’t got the model part yet for data but it have been discussed.</p>
+<h3 id="views">Views</h3>
 <p>Each view have a controller for logic, the view is a Django template file.</p>
 <p>Our view my_first_nova_main_view.dtl:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
@@ -337,6 +343,7 @@
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <p>Remember that we did see <code>Nova is running!</code> when you started the browser. <code>{{message}}</code> is something that will added from the controller with same name, my_first_nova_main_controller.erl.</p>
+<h3 id="controllers">Controllers</h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_main_controller</span><span class="fu">).</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="ch">index</span><span class="op">/</span><span class="dv">1</span></span>
@@ -344,11 +351,7 @@
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">index(#{</span><span class="ch">method</span> <span class="fu">:</span><span class="op">=</span> <span class="op">&lt;&lt;</span><span class="st">&quot;GET&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">=</span> <span class="va">_Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="fu">[{</span><span class="ch">message</span><span class="fu">,</span> <span class="st">&quot;Nova is running!&quot;</span><span class="fu">}]}.</span></span></code></pre></div>
-<p>If you change the message it will also be changed on the site.</p>
-<p>This was a short get started with Nova. I would be happy for any feedback what we can improve with Nova or guides. What you want to see more of.</p>
-<p>Next <a href="https://dev.to/taure/adding-auth-and-different-views-2hhl">article</a> is about Auth, routing and views.</p>
-<hr />
-<h2 id="adding-auth-and-different-views">Adding auth and different views</h2>
+<p>If you change the message it will also be changed on the site. ## Adding auth and different views ##</p>
 <p>In previous section we created a Nova application.</p>
 <p>Now we will add a small login form and try to auth and if we pass it will show a view with message “Welcome Daniel!”.</p>
 <p>The structure we have in applications using nova is that in src/ we usually have modules that is used by our application. In the directory src/controllers we will have erlang modules that will be used to handle requests. In the directory src/views we have the .dtl files for our endpoints. The names need to match so MY_VIEW.dtl should match MY_VIEW_controller.erl.</p>

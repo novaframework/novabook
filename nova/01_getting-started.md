@@ -104,36 +104,4 @@ Routes is a tuple {PATH, { MODULE, FUNCTION }, OPTIONS}. If we break down the fi
 
 This is the configurations that is for Nova.
 
-### Controllers & Views ###
-
-Each view have a controller for logic, the view is a Django template file.
-
-Our view my_first_nova_main_view.dtl:
-```html
-<html>
-<body>
-<h1>{{message}}</h1>
-</body>
-</html>
-```
-
-Remember that we did see `Nova is running!` when you started the browser. `{{message}}` is something that will added from the controller with same name, my_first_nova_main_controller.erl.
-
-```erlang
--module(my_first_nova_main_controller).
--export([
-         index/1
-        ]).
-
-index(#{method := <<"GET">>} = _Req) ->
-    {ok, [{message, "Nova is running!"}]}.
-
-```
-
-If you change the message it will also be changed on the site.
-
-This was a short get started with Nova. I would be happy for any feedback what we can improve with Nova or guides. What you want to see more of.
-
-Next [article](https://dev.to/taure/adding-auth-and-different-views-2hhl) is about Auth, routing and views.
-
 ---
