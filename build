@@ -8,7 +8,9 @@ main([Arg]) ->
             NewErlangFiles = ["./erlang/" ++ File || File <- ErlangFiles],
             {ok, NovaFiles} = file:list_dir("./nova"),
             NewNovaFiles = ["./nova/" ++ File || File <- NovaFiles],
-            MergedList = NewNovaFiles ++ NewErlangFiles,
+            {ok, BeamFiles} = file:list_dir("./otherbeamlang"),
+            NewBeamFiles = ["./otherbeamlang/" ++ File || File <- BeamFiles],
+            MergedList = NewNovaFiles ++ NewErlangFiles ++ NewBeamFiles,
             JoinedString = string:join(MergedList, " "),
             Result = output_html(JoinedString),
             io:format("~p~n", [Result]);
