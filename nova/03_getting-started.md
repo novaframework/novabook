@@ -1,12 +1,12 @@
-# Nova #
+## Getting Started ##
 
 [Nova](https://github.com/novaframework/nova) is a web framework written in Erlang and is using Cowboy as a web server.
 
-## Pre req ##
+### Pre req ###
 
 You will need erlang 22+ installed and rebar3.
 
-## Installing Nova ##
+### Installing Nova ###
 
 Via curl
 ```
@@ -50,7 +50,7 @@ rebar3 shell
 This will start my_first_nova application with a shell.
 Now open a browser and go to `http://localhost:8080` you should see a page with the text `Nova is running!`
 
-## What did we get? ##
+### What did we get? ###
 
 Nova app have some configuration files, route file, controllers and views.
 
@@ -104,7 +104,7 @@ Routes is a tuple {PATH, { MODULE, FUNCTION }, OPTIONS}. If we break down the fi
 
 This is the configurations that is for Nova.
 
-## Controllers & Views ##
+### Controllers & Views ###
 
 Each view have a controller for logic, the view is a Django template file.
 
@@ -135,3 +135,5 @@ If you change the message it will also be changed on the site.
 This was a short get started with Nova. I would be happy for any feedback what we can improve with Nova or guides. What you want to see more of.
 
 Next [article](https://dev.to/taure/adding-auth-and-different-views-2hhl) is about Auth, routing and views.
+
+---

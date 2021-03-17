@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Build web application with Nova</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #c4a000; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #000000; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #000000; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #000000; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Build web application with Nova</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#nova">Nova</a>
+<ul>
+<li><a href="#how-to-read-this">How to read this</a></li>
+<li><a href="#getting-started">Getting Started</a>
+<ul>
+<li><a href="#pre-req">Pre req</a></li>
+<li><a href="#installing-nova">Installing Nova</a></li>
+<li><a href="#what-did-we-get">What did we get?</a></li>
+<li><a href="#controllers-views">Controllers &amp; Views</a></li>
+</ul></li>
+<li><a href="#adding-auth-and-different-views">Adding auth and different views</a></li>
+<li><a href="#routing">Routing</a></li>
+<li><a href="#plugins">Plugins</a>
+<ul>
+<li><a href="#pipeline">Pipeline</a></li>
+<li><a href="#prioritization-configuration">Prioritization &amp; Configuration</a></li>
+</ul></li>
+<li><a href="#background">Background</a>
+<ul>
+<li><a href="#erlang-web-frameworks">Erlang web frameworks</a></li>
+<li><a href="#the-beginning">The beginning</a></li>
+</ul></li>
+<li><a href="#architecture-design">Architecture &amp; Design</a>
+<ul>
+<li><a href="#architecture">Architecture</a></li>
+<li><a href="#design">Design</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#erlang">Erlang</a>
+<ul>
+<li><a href="#recursive-functions">Recursive functions</a></li>
+<li><a href="#pattern-matching">Pattern matching</a>
+<ul>
+<li><a href="#maps-records-tuples">maps, records, tuples</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="nova">Nova</h1>
+<h2 id="how-to-read-this">How to read this</h2>
+<p>This book will be in two parts, one is getting started and how things works in Nova. The other parts is more background, desing and architecture in Nova. If you want to start building an web application continue to getting started. If you are interested in the other parts you can go to background and continue from there.</p>
+<hr />
+<h2 id="getting-started">Getting Started</h2>
+<p><a href="https://github.com/novaframework/nova">Nova</a> is a web framework written in Erlang and is using Cowboy as a web server.</p>
+<h3 id="pre-req">Pre req</h3>
+<p>You will need erlang 22+ installed and rebar3.</p>
+<h3 id="installing-nova">Installing Nova</h3>
+<p>Via curl</p>
+<pre><code>sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)&quot;</code></pre>
+<p>Via wget</p>
+<pre><code>sh -c &quot;$(wget -O- https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)&quot;</code></pre>
+<p>What the installation scripts do is setting up the rebar3 templates that we have made so it is easier to start a Nova app.</p>
+<p>Also it is possible to get the templates from rebar3_nova plugin, add rebar3_nova to ~/.config/rebar3/rebar.config</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="ch">project_plugins</span><span class="fu">,</span> <span class="fu">[</span><span class="ch">rebar3_nova</span><span class="fu">]}</span></span></code></pre></div>
+<p>When scripts are done or when the plugin is added you can write this to create a new nova app.</p>
+<pre><code>rebar3 new nova my_first_nova</code></pre>
+<p>You will see that the template setup the directory and configurations to get first app running.</p>
+<pre><code>===&gt; Writing my_first_nova/config/sys.config
+===&gt; Writing my_first_nova/priv/my_first_nova.routes.erl
+===&gt; Writing my_first_nova/src/my_first_nova.app.src
+===&gt; Writing my_first_nova/src/my_first_nova_app.erl
+===&gt; Writing my_first_nova/src/my_first_nova_sup.erl
+===&gt; Writing my_first_nova/src/controllers/my_first_nova_main_controller.erl
+===&gt; Writing my_first_nova/rebar.config
+===&gt; Writing my_first_nova/src/views/my_first_nova_main.dtl</code></pre>
+<p>When this is installed you can run:</p>
+<pre><code>rebar3 shell</code></pre>
+<p>This will start my_first_nova application with a shell. Now open a browser and go to <code>http://localhost:8080</code> you should see a page with the text <code>Nova is running!</code></p>
+<h3 id="what-did-we-get">What did we get?</h3>
+<p>Nova app have some configuration files, route file, controllers and views.</p>
+<p>First the sys.config, this handle the my_first_nova application.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">%% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">[</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="ch">kernel</span><span class="fu">,</span> <span class="fu">[</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">{</span><span class="ch">logger_level</span><span class="fu">,</span> <span class="ch">debug</span><span class="fu">}</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">]},</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="ch">nova</span><span class="fu">,</span> <span class="fu">[</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">cowboy_configuration</span><span class="fu">,</span> <span class="fu">#{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="ch">port</span> <span class="op">=&gt;</span> <span class="dv">8080</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">}},</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">dev_mode</span><span class="fu">,</span> <span class="ch">true</span><span class="fu">},</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">bootstrap_application</span><span class="fu">,</span> <span class="ch">my_first_nova</span><span class="fu">},</span> <span class="co">%% Bootstraps the application</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">plugins</span><span class="fu">,</span> <span class="fu">[</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">]}</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">]}</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">%% Please change your app.src-file instead if you intend to add app-specific configurations</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">].</span></span></code></pre></div>
+<p>What do we have here? Well kernel section is for logging with logger, here we can later add different formatters or log handlers, this is basic Erlang configurations.</p>
+<p>Nova section handles the nova application and when we start Nova in our app my_first_nova it knows what port and plugins it should use. Also what is the main app, the bootstrap_application section.</p>
+<p>Plugins is a new feature that we are working with, but it is a way to have modules do som pre/post handling on your request.</p>
+<p>Example: &gt; You want to get a user,for each request you want to have a correlation id. This can then be generated in a pre plugin that adds it to the header and pass it on. Then it can be used in the controller to keep track of what goes on.</p>
+<p>Then we have the route file my_first_nova.routes.erl in this you will specify all endpoints or static assets that you want to expose.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_main_controller</span><span class="fu">,</span> <span class="ch">index</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}}</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">],</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a> <span class="ch">statics</span> <span class="op">=&gt;</span> <span class="fu">[</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>             <span class="fu">{</span><span class="st">&quot;/assets/[...]&quot;</span><span class="fu">,</span> <span class="st">&quot;assets&quot;</span><span class="fu">}</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">]</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}.</span></span></code></pre></div>
+<p>Prefix is if you want to have something before the routes. Say “v1” then you can add it to prefix.</p>
+<p>Security is if you want any way to auth the request. Change security to {Module, Function} instead of false if you want to have a auth module.</p>
+<p>Routes is a tuple {PATH, { MODULE, FUNCTION }, OPTIONS}. If we break down the file above it will go to <code>http://localhost:8080/</code> and it will only allow method GET. When someone is doing a GET agains this it will use module my_first_nova_main_controller with function index.</p>
+<p>This is the configurations that is for Nova.</p>
+<h3 id="controllers-views">Controllers &amp; Views</h3>
+<p>Each view have a controller for logic, the view is a Django template file.</p>
+<p>Our view my_first_nova_main_view.dtl:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>{{message}}<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>Remember that we did see <code>Nova is running!</code> when you started the browser. <code>{{message}}</code> is something that will added from the controller with same name, my_first_nova_main_controller.erl.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_main_controller</span><span class="fu">).</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="ch">index</span><span class="op">/</span><span class="dv">1</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">]).</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">index(#{</span><span class="ch">method</span> <span class="fu">:</span><span class="op">=</span> <span class="op">&lt;&lt;</span><span class="st">&quot;GET&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">=</span> <span class="va">_Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="fu">[{</span><span class="ch">message</span><span class="fu">,</span> <span class="st">&quot;Nova is running!&quot;</span><span class="fu">}]}.</span></span></code></pre></div>
+<p>If you change the message it will also be changed on the site.</p>
+<p>This was a short get started with Nova. I would be happy for any feedback what we can improve with Nova or guides. What you want to see more of.</p>
+<p>Next <a href="https://dev.to/taure/adding-auth-and-different-views-2hhl">article</a> is about Auth, routing and views.</p>
+<hr />
+<h2 id="adding-auth-and-different-views">Adding auth and different views</h2>
+<p>In previous section we created a Nova application.</p>
+<p>Now we will add a small login form and try to auth and if we pass it will show a view with message “Welcome Daniel!”.</p>
+<p>The structure we have in applications using nova is that in src/ we usually have modules that is used by our application. In the directory src/controllers we will have erlang modules that will be used to handle requests. In the directory src/views we have the .dtl files for our endpoints. The names need to match so MY_VIEW.dtl should match MY_VIEW_controller.erl.</p>
+<p>Security is handling in our routing file. It looks like this.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_main_controller</span><span class="fu">,</span> <span class="ch">index</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}}]</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">}.</span></span></code></pre></div>
+<p>Nova has the possibiltity to have different routes depending on what you want to achieve. So for now we want to add a setting for endpoints that will use a security module.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_main_controller</span><span class="fu">,</span> <span class="ch">index</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}}]</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">}.</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="fu">{</span><span class="ch">my_first_nova_auth</span><span class="fu">,</span> <span class="ch">auth</span><span class="fu">},</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="st">&quot;/login&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_login_controller</span><span class="fu">,</span> <span class="ch">index</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[</span><span class="ch">post</span><span class="fu">]}}</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>           <span class="fu">]</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}.</span></span></code></pre></div>
+<p>When we add the input form it will submit username and password on the endpoint <code>/login</code>. If it pass our auth module my_first_nova_auth it will show my_first_nova_login.dtl and also my_first_nova_login_controller that will have the logic.</p>
+<p>First we change the view for our main page my_first_nova_main.dtl.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;div&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;/login&quot;</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="ot"> id=</span><span class="st">&quot;nameform&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;username&quot;</span><span class="kw">&gt;</span>userame:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> id=</span><span class="st">&quot;username&quot;</span><span class="ot"> name=</span><span class="st">&quot;username&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;password&quot;</span><span class="kw">&gt;</span>Password:<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;password&quot;</span><span class="ot"> id=</span><span class="st">&quot;password&quot;</span><span class="ot"> name=</span><span class="st">&quot;password&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;submit&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>We have added an input form now that have username and password. When we click on the submit button it will trigger the auth module.</p>
+<p>my_first_nova_auth.erl, we specified in our routing file what the module should be called and the function that will be used.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_auth</span><span class="fu">).</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">auth</span><span class="op">/</span><span class="dv">1</span><span class="fu">]).</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">auth(</span><span class="va">Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="va">Data</span><span class="fu">,</span> <span class="va">Req1</span><span class="fu">}</span> <span class="op">=</span> <span class="fu">cowboy_req:read_body(</span><span class="va">Req</span><span class="fu">),</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="va">Username</span><span class="fu">,</span> <span class="va">_</span><span class="fu">}</span> <span class="op">=</span> <span class="va">ParsedData</span> <span class="op">=</span> <span class="fu">parse_input(</span><span class="va">Data</span><span class="fu">),</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="va">ParsedData</span> <span class="kw">of</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="op">&lt;&lt;</span><span class="st">&quot;daniel&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;test&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">-&gt;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span><span class="ch">true</span><span class="fu">,</span> <span class="fu">#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;username&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="va">Username</span><span class="fu">,</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>             <span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">}};</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">_</span> <span class="op">-&gt;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span><span class="ch">true</span><span class="fu">,</span> <span class="fu">#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">}}</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="fu">.</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_input(</span><span class="va">Data</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">[</span><span class="va">_</span><span class="fu">,</span> <span class="va">Username</span><span class="fu">,</span> <span class="va">_</span><span class="fu">,</span> <span class="va">Password</span><span class="fu">]</span> <span class="op">=</span> <span class="fu">bstring:tokens(</span><span class="va">Data</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;=&amp;&quot;</span><span class="op">&gt;&gt;</span><span class="fu">),</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="va">Username</span><span class="fu">,</span> <span class="va">Password</span><span class="fu">}.</span></span></code></pre></div>
+<p>Input will send data as a string so we will need to parse it to get the data. Nova uses cowboy as a web server and it have many functionality how to get headers or body. In this module we use <code>cowboy_req:read_body/1</code>.</p>
+<p>Data here will be a binary string <code>&lt;&lt;"username=USERNAME&amp;password=PASSWORD"&gt;&gt;</code>.</p>
+<p>bstring is a module that works in the same way as strings in erlang OTP library. Nova have some libraries inbuilt like <a href="https://github.com/JanHenryNystrom/jhn_stdlib">jhn_stdlib</a>.</p>
+<p>When we return a tuple with {true, map()}, the map will be passed to the controller as a second argument. If we hada rest api or want to send back a 401 to the one that did the request we return false in our auth module. But in this case we wan’t to redirect back to <code>/</code> if you pass in wrong credentials. If we did enter correct password and username we are going to show <code>Welcome USERNAME!</code>.</p>
+<p>We need to create the controller now and the view for this, <code>my_first_nova_login_controller.erl</code> in <code>src/controllers/</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_login_controller</span><span class="fu">).</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">index</span><span class="op">/</span><span class="dv">1</span><span class="fu">]).</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">index(#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="fu">:</span><span class="op">=</span> <span class="ch">true</span><span class="fu">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>         <span class="op">&lt;&lt;</span><span class="st">&quot;username&quot;</span><span class="op">&gt;&gt;</span> <span class="fu">:</span><span class="op">=</span> <span class="va">Username</span><span class="fu">})</span> <span class="op">-&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="fu">[{</span><span class="ch">message</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;Welcome &quot;</span><span class="fu">,</span> <span class="va">Username</span><span class="op">/</span><span class="ch">binary</span><span class="fu">,</span> <span class="st">&quot;!&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}]};</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">index(</span><span class="va">Req</span><span class="fu">,</span> <span class="fu">#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="fu">:</span><span class="op">=</span> <span class="ch">false</span><span class="fu">})</span> <span class="op">-&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">redirect</span><span class="fu">,</span> <span class="st">&quot;/&quot;</span><span class="fu">}.</span></span></code></pre></div>
+<p>In the controller we have a index function that take two arguments. First one is a cowboy req the other is nova state.</p>
+<p>And then the view <code>my_first_nova_login.dtl</code> should be created in <code>src/views/</code></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span> {{ message }} <span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>What will happen here is that if we have the correct username and password the auth module will pass on the map we are giving in it. If <code>authed</code>is false it will redirect back to <code>/</code> if it returned true we should print the Username.</p>
+<p>In this case we didn’t use any database or so to have users, just to show how things works. If you want to see this with what you enter in the username we can change the auth module to.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_auth</span><span class="fu">).</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">auth</span><span class="op">/</span><span class="dv">1</span><span class="fu">]).</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">auth(</span><span class="va">Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="va">Data</span><span class="fu">,</span> <span class="va">Req1</span><span class="fu">}</span> <span class="op">=</span> <span class="fu">cowboy_req:read_body(</span><span class="va">Req</span><span class="fu">),</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="fu">parse_input(</span><span class="va">Data</span><span class="fu">)</span> <span class="kw">of</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="va">Username</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;test&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">-&gt;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span><span class="ch">true</span><span class="fu">,</span> <span class="fu">#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;username&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="va">Username</span><span class="fu">,</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>             <span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">}};</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">_</span> <span class="op">-&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span><span class="ch">true</span><span class="fu">,</span> <span class="fu">#{</span><span class="op">&lt;&lt;</span><span class="st">&quot;authed&quot;</span><span class="op">&gt;&gt;</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">}}</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="fu">.</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">parse_input(</span><span class="va">Data</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">[</span><span class="va">_</span><span class="fu">,</span> <span class="va">Username</span><span class="fu">,</span> <span class="va">_</span><span class="fu">,</span> <span class="va">Password</span><span class="fu">]</span> <span class="op">=</span> <span class="fu">bstring:tokens(</span><span class="va">Data</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;=&amp;&quot;</span><span class="op">&gt;&gt;</span><span class="fu">),</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="va">Username</span><span class="fu">,</span> <span class="va">Password</span><span class="fu">}.</span></span></code></pre></div>
+<p>In this case Username will be passed on to the controller that will print it on the page.</p>
+<hr />
+<h2 id="routing">Routing</h2>
+<p>Here I will write about routing in Nova and how it works.</p>
+<p>When we generate a new nova app we will have a routing file in the directory priv/.</p>
+<p>File is named MYAPP.routes.erl in that file we have a erlang map that will specify and configurate what rules is for a endpoint.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_login_controller</span><span class="fu">,</span> <span class="ch">login</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}}]</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">}.</span></span></code></pre></div>
+<p>What does this routing configuration say us? Prefix is what we will match against first, in this way you can create different routing configures depending on prefix.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_login_controller</span><span class="fu">,</span> <span class="ch">login</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[</span><span class="ch">post</span><span class="fu">]}}]</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">}.</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;/user/:userid&quot;</span><span class="fu">,</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="fu">{</span><span class="ch">my_first_nova_auth</span><span class="fu">,</span> <span class="ch">auth</span><span class="fu">},</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="st">&quot;/&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_user_controller</span><span class="fu">,</span> <span class="ch">get_user</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}},</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="st">&quot;/pet&quot;</span><span class="fu">,</span> <span class="fu">{</span><span class="ch">my_first_nova_user_controller</span><span class="fu">,</span> <span class="ch">get_user_pet</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}}</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">]</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}.</span></span></code></pre></div>
+<p>First map we have a if you go against http://BASEURL:PORT/, we have said we will not have any authentication module on this endpoint. When we reach this endpoint we will call my_first_nova_login_controller:login if method is post.</p>
+<p>In the second map we have a prefix that will check that every request with path http://BASEURL:PORT/user/:userid will use this configuration. Here we say that we want to use a auth module, so Nova will use my_first_nova_auth:auth to authenticate the request. If it is ok it will use the module my_first_nova_user_controller:get_user if the request was a get. In this way you can group endpoints also have different auth modules depending on endpoint.</p>
+<p>In Nova we can also have explicit routing with that is that an endpoint will go direct to a module and function.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">prefix</span> <span class="op">=&gt;</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">security</span> <span class="op">=&gt;</span> <span class="ch">false</span><span class="fu">,</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">routes</span> <span class="op">=&gt;</span> <span class="fu">[{</span><span class="st">&quot;/user/:userid&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_user_controller</span><span class="fu">,</span> <span class="ch">get_user</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[get]}},</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="st">&quot;/user/:userid&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_user_controller</span><span class="fu">,</span> <span class="ch">update_user</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[put]}},</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="st">&quot;/user/:userid&quot;</span><span class="fu">,</span> <span class="fu">{</span> <span class="ch">my_first_nova_user_controller</span><span class="fu">,</span> <span class="ch">delete_user</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">methods</span> <span class="op">=&gt;</span> <span class="fu">[</span><span class="ch">delete</span><span class="fu">]}}]</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">}.</span></span></code></pre></div>
+<p>This routing configuration will allow us to decide on method what we want to do at an endpoint. Novas routing is little different from cowboys routing. That is we can have multiple paths that are the same but methods are different.</p>
+<p>One of the reasons we choosed to do this way was that we didn’t want to match against methods in our controllers. It would be nice if we knew what we wanted to do in the controller depending on endpoint and method.</p>
+<p>The routing file in the end will be a map on what paths goes to what module and functions.</p>
+<hr />
+<h2 id="plugins">Plugins</h2>
+<p>Plugins in Nova is modules that have a behaviour. These behaviours will be a part of the pipeline flow of a request.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">nova_correlation_plugin</span><span class="fu">).</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">-</span><span class="fu">behaviour(</span><span class="ch">nova_plugin</span><span class="fu">).</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">pre_http_request</span><span class="op">/</span><span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>         <span class="ch">post_http_request</span><span class="op">/</span><span class="dv">2</span><span class="fu">,</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>         <span class="ch">plugin_info</span><span class="op">/</span><span class="dv">0</span><span class="fu">]).</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">pre_http_request(#{</span><span class="ch">req</span> <span class="fu">:</span><span class="op">=</span> <span class="va">Req</span><span class="fu">}</span> <span class="op">=</span> <span class="va">NovaState</span><span class="fu">,</span> <span class="va">_</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">UUID</span> <span class="op">=</span> <span class="fu">uuid:uuid_to_string(uuid:get_v4()),</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">Req1</span> <span class="op">=</span> <span class="fu">cowboy_req:set_resp_header(</span><span class="op">&lt;&lt;</span><span class="st">&quot;x-correlation-id&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="va">UUID</span><span class="fu">,</span> <span class="va">Req</span><span class="fu">),</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">NewState</span> <span class="op">=</span> <span class="fu">maps:put(</span><span class="ch">req</span><span class="fu">,</span> <span class="va">Req1</span><span class="fu">,</span> <span class="va">NovaState</span><span class="fu">),</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="va">NewState</span><span class="fu">}.</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="fu">post_http_request(</span><span class="va">NovaState</span><span class="fu">,</span> <span class="va">_</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="va">NovaState</span><span class="fu">}.</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plugin_info()</span> <span class="op">-&gt;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="op">&lt;&lt;</span><span class="st">&quot;nova_cors_plugin&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;0.1.0&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="op">&lt;&lt;</span><span class="st">&quot;Add CORS headers to request&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="fu">[]}.</span></span></code></pre></div>
+<p>This is an example plugin that will add a correlation id to all your request.</p>
+<h3 id="pipeline">Pipeline</h3>
+<p>We can look at the flow of a request as a pipeline that will go into different plugins before and after it have done controller code.</p>
+<p>Plugins can be used on both http and websockets. The example above show two funcitons that the plugin have, pre_http_request (things that is before the controller) and post_http_request (things that is after the controller).</p>
+<p>In the routing module we did show that you can use a security module to authenticate endpoints.</p>
+<p>In Nova we have a security plugin that will check if security is set or not.</p>
+<p><a href="https://github.com/novaframework/nova/blob/master/src/nova_security_plugin.erl">Nova Security Plugin</a></p>
+<h3 id="prioritization-configuration">Prioritization &amp; Configuration</h3>
+<p>We want to say in what order we want plugins to be run. This we will do in sys.config where we also can add optionsal settings to plugin.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">{</span><span class="ch">nova</span><span class="fu">,</span> <span class="fu">[</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">cowboy_configuration</span><span class="fu">,</span> <span class="fu">#{</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                                  <span class="ch">port</span> <span class="op">=&gt;</span> <span class="dv">8190</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">}},</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">dev_mode</span><span class="fu">,</span> <span class="ch">true</span><span class="fu">},</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">bootstrap_application</span><span class="fu">,</span> <span class="va">MYAPP</span><span class="fu">},</span> <span class="co">%% Bootstraps the application</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>         <span class="co">%% Plugins is written on form {RequestType, Module, Options, Priority}</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>         <span class="co">%% Priority is that the lowest number is executed first</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span><span class="ch">plugins</span><span class="fu">,</span> <span class="fu">[</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">{</span><span class="ch">pre_http_request</span><span class="fu">,</span> <span class="ch">nova_security_plugin</span><span class="fu">,</span> <span class="fu">#{},</span> <span class="dv">2</span><span class="fu">},</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">{</span><span class="ch">pre_http_request</span><span class="fu">,</span> <span class="ch">nova_cors_plugin</span><span class="fu">,</span> <span class="fu">#{},</span> <span class="dv">0</span><span class="fu">},</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">{</span><span class="ch">pre_http_request</span><span class="fu">,</span> <span class="ch">nova_request_plugin</span><span class="fu">,</span> <span class="fu">#{</span><span class="ch">decode_json_body</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">,</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>                                                              <span class="ch">parse_bindings</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">,</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                                                              <span class="ch">parse_qs</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">},</span> <span class="dv">10</span><span class="fu">},</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">{</span><span class="ch">pre_ws_upgrade</span><span class="fu">,</span> <span class="ch">nova_security_plugin</span><span class="fu">,</span> <span class="fu">#{},</span> <span class="dv">20</span><span class="fu">}</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">]}</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">]},</span></span></code></pre></div>
+<p>Here we see that we have configured three plugins for http and one for websocket. For http we have the last number in the tuple to say what order to run things. Lowest number runs first.</p>
+<p>In this case: nova_cors_plugin with prio at 0 nova_security_plugin with prio at 2 nova_request_plugin with prio at 10</p>
+<p>Websocket only have security plugin so it will only run that.</p>
+<p>In the nova_request_plugin we have set some values:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="ch">pre_http_request</span><span class="fu">,</span> <span class="ch">nova_request_plugin</span><span class="fu">,</span> <span class="fu">#{</span><span class="ch">decode_json_body</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">,</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                                                              <span class="ch">parse_bindings</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">,</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                                              <span class="ch">parse_qs</span> <span class="op">=&gt;</span> <span class="ch">true</span><span class="fu">},</span> <span class="dv">10</span><span class="fu">}</span></span></code></pre></div>
+<p>What will request plugin do? What it will do is that it will move bindings from cowboy request to nova state. That the state that will be in the function header will look like this:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">req</span> <span class="op">=&gt;</span> <span class="va">CowboyReq</span><span class="fu">,</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">bindings</span> <span class="op">=&gt;</span> <span class="va">Bindings</span><span class="fu">}</span> <span class="fu">(</span><span class="va">Same</span> <span class="ch">as</span> <span class="ch">in</span> <span class="va">CowboyReq</span><span class="fu">,</span> <span class="ch">but</span> <span class="ch">you</span> <span class="ch">don&#39;t need to think of Req)</span></span></code></pre></div>
+<p>Then we have decode_json_body this will if we get a body in the request and it it content-type: application/json decode the body and move it to Nova state.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">req</span> <span class="op">=&gt;</span> <span class="va">CowboyReq</span><span class="fu">,</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">bindings</span> <span class="op">=&gt;</span> <span class="va">Bindings</span><span class="fu">,</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">json</span> <span class="op">=&gt;</span> <span class="va">JSONMap</span><span class="fu">}</span> <span class="fu">(</span><span class="va">Keys</span> <span class="ch">in</span> <span class="va">JSONMap</span> <span class="ch">will</span> <span class="ch">be</span> <span class="ch">binary</span><span class="fu">)</span></span></code></pre></div>
+<p>The last part of the request plugin will add QS to Nova state if QS is used.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">#{</span><span class="ch">req</span> <span class="op">=&gt;</span> <span class="va">CowboyReq</span><span class="fu">,</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="ch">bindings</span> <span class="op">=&gt;</span> <span class="va">Bindings</span><span class="fu">,</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="ch">json</span> <span class="op">=&gt;</span> <span class="va">JSONMap</span><span class="fu">,</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="ch">qs</span> <span class="op">=&gt;</span> <span class="va">QS</span><span class="fu">}</span></span></code></pre></div>
+<p>Because we have this in a plugin this will happen for all request that is used for this Nova application. So we don’t need to handle json decode for all of our controllers.</p>
+<p>Plugins is a way to remove things that you would need to do in all you requests to a place where it is handled by the system for you.</p>
+<hr />
+<h2 id="background">Background</h2>
+<h3 id="erlang-web-frameworks">Erlang web frameworks</h3>
+<p>Both me and Niclas have used many different web frameworks in Erlang. We started to code Erlang around 2009 and at that time we had frameworks like Nitrogen, Erlang Web and Zotonic. Some years later Chicago Boss was introduced that tried to solve many things. But one of the things with Chicago Boss was that it didn’t really follow OTP standard when it came to release handling.</p>
+<p>In 2011 Loïc Hoguin released Cowboy, an Erlang web server. It was very fast and stable web server that got popular in the Erlang community.</p>
+<p>Many Erlang companies started to use Cowboy and everytime me or Niclas came in contact with it we needed to start writing all the handlers, or work with a wrapper around.</p>
+<h3 id="the-beginning">The beginning</h3>
+<p>In a hotel room in Gratz we started to see on some of our projects we have started during all the years. Niclas had earlier started a framework called Burbweb. Some years before that we had worked on a ORM library in Erlang. We got an idea that we should try to make a product of this and really try to aim for a new good framework that people can use.</p>
+<p>We started to look into how we can help users to get started easy and also try to make easy release builds.</p>
+<p>So in 2019 we released Nova that we now have worked on and try to make it better.</p>
+<hr />
+<h2 id="architecture-design">Architecture &amp; Design</h2>
+<h3 id="architecture">Architecture</h3>
+<p>Nova is built on top of Cowboy that is a web server written in Erlang. One of the reason was that it is a well tested web server, that have great features.</p>
+<p>In the beginning we used Cowboy routing but later we did see that we wanted to handle appliction modilarity. That is for us that you can include other Nova applications into your application.</p>
+<h3 id="design">Design</h3>
+<p>One of the things that we wanted with Nova is that it should make it easier to start a new web application projet in Erlang. Without spending much time on boilerplate Cowboy for your project, or write your own wrapper around it.</p>
+<p>The other thing is that what is core features in Nova should be small and we should not use that many dependencies. When we discuss new things we usually ask if this is something that extends the core Nova or if it is something that builds on top of Nova.</p>
+<p>This is also one of thea reason for plugin system, that helps us to leave to other to write how they want to handle requests. Instead of building everything in Nova.</p>
+<hr />
+<h1 id="erlang">Erlang</h1>
+<hr />
+<h2 id="recursive-functions">Recursive functions</h2>
+<p>This is me trying to describe recursive functions in Erlang. How you can write them and how it works.</p>
+<p>Erlang uses recursive functions often because in other languages you have for, while and other loops. In Erlang we do it with recursive functions.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">recursive</span><span class="fu">).</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">sum</span><span class="op">/</span><span class="dv">1</span><span class="fu">]).</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([])</span> <span class="op">-&gt;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="fu">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="va">Head</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">])</span> <span class="op">-&gt;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>   <span class="va">Head</span> <span class="op">+</span> <span class="fu">sum(</span><span class="va">Tail</span><span class="fu">).</span></span></code></pre></div>
+<p>Here we do a sum function that will take a list of integers and summarize them.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span><span class="op">&gt;</span> recursive:sum<span class="kw">(</span><span class="ex">[1,2,3]</span><span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">6</span></span></code></pre></div>
+<p>What happen when we call our function?</p>
+<p>Thing in Erlang works that we go from the top to the bottom of our code.</p>
+<p>recursive:sum([1,2,3]). When we call this function with argument [1,2,3] this will happen.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([])</span> <span class="op">-&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>   <span class="dv">0</span><span class="fu">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">1</span> <span class="fu">|</span> <span class="fu">[</span><span class="dv">2</span><span class="fu">,</span><span class="dv">3</span><span class="fu">]])</span> <span class="op">-&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>   <span class="dv">1</span> <span class="op">+</span> <span class="fu">sum([</span><span class="dv">2</span><span class="fu">,</span><span class="dv">3</span><span class="fu">]).</span></span></code></pre></div>
+<p>First we will hit the first function clause and because our list contain three elements it will go on to the next function clause. Here the head of the list will be 1 and the tail will be list with two elements [2,3].</p>
+<p>The recursive call that we call our function sum again but now with the tail will give us.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([])</span> <span class="op">-&gt;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>   <span class="dv">0</span><span class="fu">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">2</span> <span class="fu">|</span> <span class="fu">[</span><span class="dv">3</span><span class="fu">]])</span> <span class="op">-&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>   <span class="dv">2</span> <span class="op">+</span> <span class="fu">sum([</span><span class="dv">3</span><span class="fu">]).</span></span></code></pre></div>
+<p>We also do that with the last element in the list.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([])</span> <span class="op">-&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>   <span class="dv">0</span><span class="fu">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">3</span> <span class="fu">|</span> <span class="fu">[]])</span> <span class="op">-&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>   <span class="dv">3</span> <span class="op">+</span> <span class="fu">sum([]).</span></span></code></pre></div>
+<p>Last call here will hit the base case and return a 0.</p>
+<p>This will calculate 3 + 2 + 1 + 0 (base case) = 6.</p>
+<p>You can also do this with tail recursive so you pass the result of the recursive to the next.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">Sum</span><span class="fu">;</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="va">Head</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum(</span><span class="va">Tail</span><span class="fu">,</span> <span class="va">Sum</span> <span class="op">+</span> <span class="va">Head</span><span class="fu">).</span></span></code></pre></div>
+<p>This is our function with tail recursive. What will happen here is very similar to what we did above. Different now is that we to the addition in the recursive step and send the result to the next recursive. When we hit base case we will return the result.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="dv">16</span><span class="op">&gt;</span> <span class="fu">c(</span><span class="ch">recursive</span><span class="fu">).</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span><span class="ch">recursive</span><span class="fu">}</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="dv">17</span><span class="op">&gt;</span> <span class="fu">recursive:sum([</span><span class="dv">1</span><span class="fu">,</span><span class="dv">2</span><span class="fu">,</span><span class="dv">3</span><span class="fu">],</span> <span class="dv">0</span><span class="fu">).</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span></span></code></pre></div>
+<p>We have now created a function called sum that now have aritry 2. It will take the list with integers and the start value.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>   <span class="va">Sum</span><span class="fu">;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">1</span> <span class="fu">|</span> <span class="fu">[</span><span class="dv">2</span><span class="fu">,</span><span class="dv">3</span><span class="fu">]],</span> <span class="dv">0</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum([</span><span class="dv">2</span><span class="fu">,</span><span class="dv">3</span><span class="fu">],</span> <span class="dv">0</span> <span class="op">+</span> <span class="dv">1</span><span class="fu">).</span></span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>   <span class="va">Sum</span><span class="fu">;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">2</span> <span class="fu">|</span> <span class="fu">[</span><span class="dv">3</span><span class="fu">]],</span> <span class="dv">1</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum([</span><span class="dv">3</span><span class="fu">],</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span><span class="fu">).</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>   <span class="va">Sum</span><span class="fu">;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="dv">3</span> <span class="fu">|</span> <span class="fu">[]],</span> <span class="dv">3</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum([],</span> <span class="dv">3</span> <span class="op">+</span> <span class="dv">3</span><span class="fu">).</span></span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([],</span> <span class="dv">6</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span><span class="fu">;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum([</span><span class="va">Head</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Sum</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">sum(</span><span class="va">Tail</span><span class="fu">,</span> <span class="va">Sum</span> <span class="op">+</span> <span class="va">Head</span><span class="fu">).</span></span></code></pre></div>
+<p>When we hit the base case and the list is empty we will return the variable Sum that is in this case 6.</p>
+<hr />
+<h2 id="pattern-matching">Pattern matching</h2>
+<p>In last section we did some recursive functions. Now we will try to do some pattern matching and later combine it with recursive functions.</p>
+<p>When it comes to Erlang we execute from right to left that makes it easier to understand the error message.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="op">&gt;</span> <span class="va">Variable</span> <span class="op">=</span> <span class="dv">1</span><span class="fu">.</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="op">&gt;</span> <span class="va">Variable</span> <span class="op">=</span> <span class="dv">1</span><span class="fu">.</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="op">&gt;</span> <span class="dv">1</span> <span class="op">=</span> <span class="va">Variable</span><span class="fu">.</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="op">&gt;</span> <span class="ch">a</span> <span class="op">=</span> <span class="va">Variable</span><span class="fu">.</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="op">**</span> <span class="ch">exception</span> <span class="ch">error</span><span class="fu">:</span> <span class="ch">no</span> <span class="ch">match</span> <span class="kw">of</span> <span class="ch">right</span> <span class="ch">hand</span> <span class="ch">side</span> <span class="ch">value</span> <span class="dv">1</span></span></code></pre></div>
+<p>This is a Erlang shell that we bind Variable to 1 and then pattern match.</p>
+<p>At 3&gt;, we try to pattern match 1 to Variable, if Variable haven’t been set before it will be 1. But now it is set at 2&gt;. At 4&gt;, we try to match Variable to 1, and if it is ok the value is returned. At 5&gt; we have a mismatch, this is where we match things from right to left. So on the right hand side we try to match 1 to a. That fails because of a no match.</p>
+<p>One other example we can do is fibonacci. Fibonacci works that it do addition on the last number and the number before. 1, 1, 2, 3, 5, 8, 13.</p>
+<p>We implement this in Erlang using recursion and pattern matching.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">fibonacci</span><span class="fu">).</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">fib</span><span class="op">/</span><span class="dv">1</span><span class="fu">]).</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fib(</span><span class="dv">0</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span><span class="fu">;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">fib(</span><span class="dv">1</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span><span class="fu">;</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="fu">fib(</span><span class="va">N</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fib(</span><span class="va">N</span><span class="op">-</span><span class="dv">1</span><span class="fu">)</span> <span class="op">+</span> <span class="fu">fib(</span><span class="va">N</span><span class="op">-</span><span class="dv">2</span><span class="fu">).</span></span></code></pre></div>
+<p>What does our code do?</p>
+<p>We have two base case here, if N is 0 and if N is 1. In the last function clause we call fib function with N-1 and N-2.</p>
+<h3 id="maps-records-tuples">maps, records, tuples</h3>
+<p>Say that we want to do different things depending on a value in a map.</p>
+<p>We get a list with maps that looks something like:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">[#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span> <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;email&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}]</span></span></code></pre></div>
+<p>We want to sum the amount of each type in our list.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">pattern</span><span class="fu">).</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span><span class="ch">sum_by_type</span><span class="op">/</span><span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>         <span class="ch">generate_list</span><span class="op">/</span><span class="dv">0</span><span class="fu">]).</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum_by_type(</span><span class="va">List</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum_by_type_aux(</span><span class="va">List</span><span class="fu">,</span> <span class="fu">[]).</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sum_by_type_aux([],</span> <span class="va">Acc</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">Acc</span><span class="fu">;</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sum_by_type_aux([#{</span><span class="ch">type</span> <span class="fu">:</span><span class="op">=</span> <span class="va">Type</span><span class="fu">}</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Acc</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">case</span> <span class="fu">get_value(</span><span class="va">Acc</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">)</span> <span class="kw">of</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>        <span class="ch">undefined</span> <span class="op">-&gt;</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum_by_type_aux(</span><span class="va">Tail</span><span class="fu">,</span> <span class="fu">[{</span><span class="va">Type</span><span class="fu">,</span> <span class="dv">1</span><span class="fu">}</span> <span class="fu">|</span> <span class="va">Acc</span><span class="fu">]);</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">Value</span> <span class="op">-&gt;</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">NewAcc</span> <span class="op">=</span> <span class="fu">remove_value(</span><span class="va">Acc</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">),</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sum_by_type_aux(</span><span class="va">Tail</span><span class="fu">,</span> <span class="fu">[{</span><span class="va">Type</span><span class="fu">,</span> <span class="va">Value</span> <span class="op">+</span> <span class="dv">1</span><span class="fu">}</span> <span class="fu">|</span> <span class="va">NewAcc</span><span class="fu">])</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span><span class="fu">.</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a><span class="fu">get_value([],</span> <span class="va">_</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>    <span class="ch">undefined</span><span class="fu">;</span></span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="fu">get_value([{</span><span class="va">Type</span><span class="fu">,</span> <span class="va">Value</span><span class="fu">}|</span><span class="va">_</span><span class="fu">],</span> <span class="va">Type</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">Value</span><span class="fu">;</span></span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a><span class="fu">get_value([</span><span class="va">_</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Type</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">get_value(</span><span class="va">Tail</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">).</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_value(</span><span class="va">List</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">remove_value_aux(</span><span class="va">List</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">,</span> <span class="fu">[]).</span></span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_value_aux([],</span> <span class="va">_</span><span class="fu">,</span> <span class="va">Acc</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a>    <span class="va">Acc</span><span class="fu">;</span></span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_value_aux([{</span><span class="va">Type</span><span class="fu">,</span> <span class="va">_</span><span class="fu">}</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Type</span><span class="fu">,</span> <span class="va">Acc</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">remove_value_aux(</span><span class="va">Tail</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">,</span> <span class="va">Acc</span><span class="fu">);</span></span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a><span class="fu">remove_value_aux([</span><span class="va">Head</span> <span class="fu">|</span> <span class="va">Tail</span><span class="fu">],</span> <span class="va">Type</span><span class="fu">,</span> <span class="va">Acc</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">remove_value_aux(</span><span class="va">Tail</span><span class="fu">,</span> <span class="va">Type</span><span class="fu">,</span> <span class="fu">[</span><span class="va">Head</span> <span class="fu">|</span> <span class="va">Acc</span><span class="fu">]).</span></span>
+<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a><span class="fu">generate_list()</span> <span class="op">-&gt;</span></span>
+<span id="cb41-38"><a href="#cb41-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">[#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-39"><a href="#cb41-39" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">email</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-40"><a href="#cb41-40" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-41"><a href="#cb41-41" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">email</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-42"><a href="#cb41-42" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-43"><a href="#cb41-43" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">},</span></span>
+<span id="cb41-44"><a href="#cb41-44" aria-hidden="true" tabindex="-1"></a>     <span class="fu">#{</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">,</span> <span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}].</span></span></code></pre></div>
+<p>Here is the code that will handle the sum and sort things. We create one function that will be the exported and that function will call a helper function with two arguments. First is the input we get, the other argument is the accumulator that we will return.</p>
+<p>Helper function will match first element in the list and then check if we have already summed it. I have created my own functions now to get values and remove values to more show how pattern matching and recursion works. OTP library have proplists module or other modules to do this.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="dv">4</span><span class="op">&gt;</span> <span class="va">List</span> <span class="op">=</span> <span class="fu">pattern:generate_list().</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">[#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">},</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">email</span><span class="fu">},</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">},</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">email</span><span class="fu">},</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">},</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">},</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">#{</span><span class="ch">text</span> <span class="op">=&gt;</span> <span class="op">&lt;&lt;</span><span class="st">&quot;hi&quot;</span><span class="op">&gt;&gt;</span><span class="fu">,</span><span class="ch">type</span> <span class="op">=&gt;</span> <span class="ch">sms</span><span class="fu">}]</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span><span class="op">&gt;</span> <span class="fu">pattern:sum_by_type(</span><span class="va">List</span><span class="fu">).</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">[{</span><span class="ch">sms</span><span class="fu">,</span><span class="dv">5</span><span class="fu">},{</span><span class="ch">email</span><span class="fu">,</span><span class="dv">2</span><span class="fu">}]</span></span></code></pre></div>
+<p>Small examples on how to use lists, tuples and maps.</p>
+<hr />
+</body>
+</html>

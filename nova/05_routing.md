@@ -1,4 +1,4 @@
-# Routing #
+## Routing ##
 
 Here I will write about routing in Nova and how it works.
 
@@ -49,3 +49,5 @@ This routing configuration will allow us to decide on method what we want to do 
 One of the reasons we choosed to do this way was that we didn't want to match against methods in our controllers. It would be nice if we knew what we wanted to do in the controller depending on endpoint and method.
 
 The routing file in the end will be a map on what paths goes to what module and functions.
+
+---

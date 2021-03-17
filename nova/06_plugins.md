@@ -1,4 +1,4 @@
-# Plugins #
+## Plugins ##
 
 Plugins in Nova is modules that have a behaviour. These behaviours will be a part of the pipeline flow of a request.
 
@@ -28,7 +28,7 @@ plugin_info() ->
 
 This is an example plugin that will add a correlation id to all your request.
 
-## Pipeline
+### Pipeline ###
 
 We can look at the flow of a request as a pipeline that will go into different plugins before and after it have done controller code.
 
@@ -40,7 +40,7 @@ In Nova we have a security plugin  that will check if security is set or not.
 
 [Nova Security Plugin](https://github.com/novaframework/nova/blob/master/src/nova_security_plugin.erl)
 
-### Prioritization & Configuration
+### Prioritization & Configuration ###
 
 We want to say in what order we want plugins to be run. This we will do in sys.config where we also can add optionsal settings to plugin.
 
@@ -105,3 +105,5 @@ The last part of the request plugin will add QS to Nova state if QS is used.
 Because we have this in a plugin this will happen for all request that is used for this Nova application. So we don't need to handle json decode for all of our controllers.
 
 Plugins is a way to remove things that you would need to do in all you requests to a place where it is handled by the system for you.
+
+---

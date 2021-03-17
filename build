@@ -5,17 +5,16 @@ main([Arg]) ->
     case Arg of
         "html" ->
             {ok, ErlangFiles} = file:list_dir("./erlang"),
-            [erlang_output_html(File) || File <- ErlangFiles],
+            NewErlangFiles = ["./erlang/" ++ File || File <- ErlangFiles],
             {ok, NovaFiles} = file:list_dir("./nova"),
-            [nova_output_html(File) || File <- NovaFiles];
+            NewNovaFiles = ["./nova/" ++ File || File <- NovaFiles],
+            MergedList = NewNovaFiles ++ NewErlangFiles,
+            JoinedString = string:join(MergedList, " "),
+            Result = output_html(JoinedString),
+            io:format("~p~n", [Result]);
         Arg ->
             io:format("Arg ~p not supported~n", [Arg])
     end.
 
-erlang_output_html(File) ->
-    Filename = filename:rootname(File),
-    os:cmd("pandoc " ++ "./erlang/" ++ File ++ " -f markdown -t html  -s -o output/" ++ Filename ++ ".html --highlight-style tango").
-
-nova_output_html(File) ->
-    Filename = filename:rootname(File),
-    os:cmd("pandoc " ++ "./nova/" ++ File ++ " -f markdown -t html -s -o output/" ++ Filename ++ ".html --highlight-style tango").
+output_html(Files) ->
+    os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/novabook.html --highlight-style tango").

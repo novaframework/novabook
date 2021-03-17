@@ -1,4 +1,4 @@
-# Adding auth and different views #
+## Adding auth and different views ##
 
 In previous section we created a Nova application.
 
@@ -129,3 +129,5 @@ parse_input(Data) ->
 ```
 
 In this case Username will be passed on to the controller that will print it on the page.
+
+---

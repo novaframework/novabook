@@ -1,11 +1,11 @@
-# Recursive functions #
+## Recursive functions ##
 
 This is me trying to describe recursive functions in Erlang. How you can write them and how it works.
 
 Erlang uses recursive functions often because in other languages you have for, while and other loops. In Erlang we do it with recursive functions.
 
 Example:
-```
+```erlang
 -module(recursive).
 
 -export([sum/1]).
@@ -109,3 +109,5 @@ sum([Head | Tail], Sum) ->
 ```
 
 When we hit the base case and the list is empty we will return the variable Sum that is in this case 6.
+
+---

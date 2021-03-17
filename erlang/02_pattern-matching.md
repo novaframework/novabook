@@ -1,4 +1,4 @@
-# Pattern matching #
+## Pattern matching ##
 
 In last section we did some recursive functions. Now we will try to do some pattern matching and later combine it with recursive functions.
 
@@ -40,7 +40,7 @@ What does our code do?
 
 We have two base case here, if N is 0 and if N is 1. In the last function clause we call fib function with N-1 and N-2.
 
-## maps, records, tuples
+### maps, records, tuples ###
 
 Say that we want to do different things depending on a value in a map.
 
@@ -116,3 +116,5 @@ Helper function will match first element in the list and then check if we have a
 ```
 
 Small examples on how to use lists, tuples and maps.
+
+---
