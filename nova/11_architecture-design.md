@@ -16,4 +16,8 @@ The other thing is that what is core features in Nova should be small and we sho
 
 This is also one of thea reason for plugin system, that helps us to leave to other to write how they want to handle requests. Instead of building everything in Nova.
 
+One of the design philosopies we have is that is should be using as much as we can standard OTP utilites and release tools. In this case we use rebar3 that uses relx, we see that more and more it is getting to be the standard. (While writing this OTP will make rebar3 as a part of OTP.)
+
+
+
 ---
