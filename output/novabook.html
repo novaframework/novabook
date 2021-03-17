@@ -227,9 +227,10 @@
 </ul></li>
 <li><a href="#controllers-views">Controllers &amp; Views</a>
 <ul>
-<li><a href="#views">Views</a></li>
 <li><a href="#controllers">Controllers</a></li>
+<li><a href="#views">Views</a></li>
 </ul></li>
+<li><a href="#adding-auth-and-different-views">Adding auth and different views</a></li>
 <li><a href="#routing">Routing</a></li>
 <li><a href="#plugins">Plugins</a>
 <ul>
@@ -334,24 +335,28 @@
 <hr />
 <h2 id="controllers-views">Controllers &amp; Views</h2>
 <p>Controllers and Views are the VC part of the framework. Nova haven’t got the model part yet for data but it have been discussed.</p>
+<p>In src we have a views directory that will contain all your views that will also have a controller with the same name in the directory controllers.</p>
+<p>When we configure routing we will poing the module and function to the controller that will do some logic and then return {ok, Proplist}. When controller return ok tuple Nova will understand that it should render the view file and return it.</p>
+<h3 id="controllers">Controllers</h3>
+<p>This is a basic controller that will return back a proplist back to the view. In this case it will return with a message that the view will populate.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_main_controller</span><span class="fu">).</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>         <span class="ch">index</span><span class="op">/</span><span class="dv">1</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">]).</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">index(#{</span><span class="ch">method</span> <span class="fu">:</span><span class="op">=</span> <span class="op">&lt;&lt;</span><span class="st">&quot;GET&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">=</span> <span class="va">_Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="fu">[{</span><span class="ch">message</span><span class="fu">,</span> <span class="st">&quot;Nova is running!&quot;</span><span class="fu">}]}.</span></span></code></pre></div>
+<p>If you change the message it will also be changed on the site.</p>
 <h3 id="views">Views</h3>
 <p>Each view have a controller for logic, the view is a Django template file.</p>
 <p>Our view my_first_nova_main_view.dtl:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>{{message}}<span class="kw">&lt;/h1&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
-<p>Remember that we did see <code>Nova is running!</code> when you started the browser. <code>{{message}}</code> is something that will added from the controller with same name, my_first_nova_main_controller.erl.</p>
-<h3 id="controllers">Controllers</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">-module</span><span class="fu">(</span><span class="ch">my_first_nova_main_controller</span><span class="fu">).</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">-export</span><span class="fu">([</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>         <span class="ch">index</span><span class="op">/</span><span class="dv">1</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">]).</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">index(#{</span><span class="ch">method</span> <span class="fu">:</span><span class="op">=</span> <span class="op">&lt;&lt;</span><span class="st">&quot;GET&quot;</span><span class="op">&gt;&gt;</span><span class="fu">}</span> <span class="op">=</span> <span class="va">_Req</span><span class="fu">)</span> <span class="op">-&gt;</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="ch">ok</span><span class="fu">,</span> <span class="fu">[{</span><span class="ch">message</span><span class="fu">,</span> <span class="st">&quot;Nova is running!&quot;</span><span class="fu">}]}.</span></span></code></pre></div>
-<p>If you change the message it will also be changed on the site. ## Adding auth and different views ##</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;h1&gt;</span>{{message}}<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>From the controller we will get <code>Nova is running!</code>. That we will template into <code>{{message}}</code> that will show it on the homepage.</p>
+<h2 id="adding-auth-and-different-views">Adding auth and different views</h2>
 <p>In previous section we created a Nova application.</p>
 <p>Now we will add a small login form and try to auth and if we pass it will show a view with message “Welcome Daniel!”.</p>
 <p>The structure we have in applications using nova is that in src/ we usually have modules that is used by our application. In the directory src/controllers we will have erlang modules that will be used to handle requests. In the directory src/views we have the .dtl files for our endpoints. The names need to match so MY_VIEW.dtl should match MY_VIEW_controller.erl.</p>
@@ -609,10 +614,14 @@
 <p>Both me and Niclas have used many different web frameworks in Erlang. We started to code Erlang around 2009 and at that time we had frameworks like Nitrogen, Erlang Web and Zotonic. Some years later Chicago Boss was introduced that tried to solve many things. But one of the things with Chicago Boss was that it didn’t really follow OTP standard when it came to release handling.</p>
 <p>In 2011 Loïc Hoguin released Cowboy, an Erlang web server. It was very fast and stable web server that got popular in the Erlang community.</p>
 <p>Many Erlang companies started to use Cowboy and everytime me or Niclas came in contact with it we needed to start writing all the handlers, or work with a wrapper around.</p>
+<p>I started my Erlang coding with a project course at Uppsala University where we did a e-commerce system written with Nitrogen and Riak. This was late 2009, riak was a new and untested database also was Nitrogen something new.</p>
+<p>From this both me and Niclas have helped companies to launch web applications with Erlang or as employees develop these kind of systems.</p>
 <h3 id="the-beginning">The beginning</h3>
-<p>In a hotel room in Gratz we started to see on some of our projects we have started during all the years. Niclas had earlier started a framework called Burbweb. Some years before that we had worked on a ORM library in Erlang. We got an idea that we should try to make a product of this and really try to aim for a new good framework that people can use.</p>
+<p>In a hotel room in Gratz we started to look at some of our projects we have started during all the years. Niclas had earlier started a framework called Burbweb, this would later be the start of Nova. Some years before that we had worked on a ORM library in Erlang. We got an idea that we should try to make a product of this and really try to aim for a new good framework that people can use.</p>
 <p>We started to look into how we can help users to get started easy and also try to make easy release builds.</p>
 <p>So in 2019 we released Nova that we now have worked on and try to make it better.</p>
+<p>Zaark was a company that both me and Niclas worked at and later started to use Nova in production. Mostly as a api server without views. From the feedback using Nova we improved it and felt we are doing something great.</p>
+<p>2020 we had our first presentation about Nova at code beam.</p>
 <hr />
 <h2 id="architecture-design">Architecture &amp; Design</h2>
 <h3 id="architecture">Architecture</h3>
@@ -622,6 +631,7 @@
 <p>One of the things that we wanted with Nova is that it should make it easier to start a new web application projet in Erlang. Without spending much time on boilerplate Cowboy for your project, or write your own wrapper around it.</p>
 <p>The other thing is that what is core features in Nova should be small and we should not use that many dependencies. When we discuss new things we usually ask if this is something that extends the core Nova or if it is something that builds on top of Nova.</p>
 <p>This is also one of thea reason for plugin system, that helps us to leave to other to write how they want to handle requests. Instead of building everything in Nova.</p>
+<p>One of the design philosopies we have is that is should be using as much as we can standard OTP utilites and release tools. In this case we use rebar3 that uses relx, we see that more and more it is getting to be the standard. (While writing this OTP will make rebar3 as a part of OTP.)</p>
 <hr />
 <h1 id="erlang">Erlang</h1>
 <h2 id="erlang-books">Erlang books</h2>
