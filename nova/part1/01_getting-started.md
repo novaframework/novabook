@@ -1,31 +1,6 @@
 ## Getting Started ##
 
-[Nova](https://github.com/novaframework/nova) is a web framework written in Erlang and is using Cowboy as a web server.
-
-### Pre req ###
-
-You will need erlang 22+ installed and rebar3.
-
-### Installing Nova ###
-
-Via curl
-```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)"
-```
-Via wget
-```
-sh -c "$(wget -O- https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)"
-```
-
-What the installation scripts do is setting up the rebar3 templates that we have made so it is easier to start a Nova app.
-
-Also it is possible to get the templates from rebar3_nova plugin, add rebar3_nova to ~/.config/rebar3/rebar.config
-
-```erlang
-{project_plugins, [rebar3_nova]}
-```
-
-When scripts are done or when the plugin is added you can write this to create a new nova app.
+First we will generate a new Nova app that we will work with.
 
 ```
 rebar3 new nova my_first_nova
@@ -89,9 +64,9 @@ Then we have the route file my_first_nova.routes.erl in this you will specify al
 #{prefix => "",
   security => false,
   routes => [
-            {"/", { my_first_nova_main_controller, index}, #{methods => [get]}}
+            {"/",{ my_first_nova_main_controller, index}, #{methods => [get]}}
            ],
- statics => [
+  statics => [
              {"/assets/[...]", "assets"}
             ]
 }.

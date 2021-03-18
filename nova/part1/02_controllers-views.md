@@ -11,16 +11,23 @@ When we configure routing we will poing the module and function to the controlle
 
 This is a basic controller that will return back a proplist back to the view. In this case it will return with a message that the view will populate.
 
+What do we have in this module?
+
+
 ```erlang
+%% This is the module declaration
 -module(my_first_nova_main_controller).
+%% What functions that are exported from this module.
 -export([
          index/1
-        ]).
-
-index(#{method := <<"GET">>} = _Req) ->
-    {ok, [{message, "Nova is running!"}]}.
+        ]). 
+%% Function header.
+index(_) -> 
+    %% Returns a tuple with ok and a proplists (Key-Value list)
+    {ok, [{message, "Nova is running!"}]}. 
 
 ```
+
 
 If you change the message it will also be changed on the site.
 

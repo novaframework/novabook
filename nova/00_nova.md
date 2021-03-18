@@ -1,10 +1,12 @@
+\newpage{}
+
 # Nova #
 
 ## How to read this ##
 
 ### Part 1 ###
 
-Here we will discuss foundation of Nova, how to use it as a view-controller.
+Here we will discuss foundation of Nova, how to use it as a view-controller. This section will be larger abd be the foundation of the rest of the book. I will describe not only Nova but also Erlang.
 
 ### Part 2 ###
 
