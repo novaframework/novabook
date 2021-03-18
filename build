@@ -2,21 +2,44 @@
 %% -*- erlang -*-
 %%! -smp enable -sname factorial -mnesia debug verbose
 main([Arg]) ->
+    MergedList = get_merge_files(),
+    JoinedString = string:join(MergedList, " "),
     case Arg of
         "html" ->
-            {ok, ErlangFiles} = file:list_dir("./erlang"),
-            NewErlangFiles = ["./erlang/" ++ File || File <- ErlangFiles],
-            {ok, NovaFiles} = file:list_dir("./nova"),
-            NewNovaFiles = ["./nova/" ++ File || File <- NovaFiles],
-            {ok, BeamFiles} = file:list_dir("./otherbeamlang"),
-            NewBeamFiles = ["./otherbeamlang/" ++ File || File <- BeamFiles],
-            MergedList = NewNovaFiles ++ NewErlangFiles ++ NewBeamFiles,
-            JoinedString = string:join(MergedList, " "),
-            Result = output_html(JoinedString),
-            io:format("~p~n", [Result]);
+            output_html(JoinedString),
+            ok;
+        "pdf" ->
+            output_pdf(JoinedString),
+            ok;
         Arg ->
             io:format("Arg ~p not supported~n", [Arg])
     end.
 
+get_merge_files() ->
+    PartsList = ["part1", "part2", "part3"],
+    {ok, ErlangFiles} = file:list_dir("./erlang"),
+    NewErlangFiles = ["./erlang/" ++ File || File <- ErlangFiles],
+    {ok, NovaFiles} = file:list_dir("./nova"),
+    NovaFiles2 = NovaFiles -- PartsList,
+    NewNovaFiles = ["./nova/" ++ File || File <- NovaFiles2],
+    {ok, Part1Files} = file:list_dir("./nova/part1"),
+    NewPart1Files = ["./nova/part1/" ++ File || File <- Part1Files], 
+    {ok, Part2Files} = file:list_dir("./nova/part2"),
+    NewPart2Files = ["./nova/part2/" ++ File || File <- Part2Files], 
+    {ok, Part3Files} = file:list_dir("./nova/part3"),
+    NewPart3Files = ["./nova/part3/" ++ File || File <- Part3Files], 
+    {ok, BeamFiles} = file:list_dir("./otherbeamlang"),
+    NewBeamFiles = ["./otherbeamlang/" ++ File || File <- BeamFiles],
+    %% Merging all list files together.
+    NewNovaFiles ++
+    NewPart1Files ++
+    NewPart2Files ++
+    NewPart3Files ++
+    NewErlangFiles ++
+    NewBeamFiles.
+
 output_html(Files) ->
     os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/novabook.html --highlight-style tango").
+
+output_pdf(Files) ->
+    os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t pdf  -s -o output/novabook.pdf --highlight-style tango").

@@ -61,11 +61,11 @@ auth(Req) ->
     {ok, Data, Req1} = cowboy_req:read_body(Req),
     {Username, _} = ParsedData = parse_input(Data),
     case ParsedData of
-	{<<"daniel">>, <<"test">>} ->
-	    {true, #{<<"username">> => Username,
-		     <<"authed">> => true}};
-	_ ->
-	    {true, #{<<"authed">> => false}}
+	      {<<"daniel">>, <<"test">>} ->
+	          {true, #{<<"username">> => Username,
+		                 <<"authed">> => true}};
+	      _ ->
+	          {true, #{<<"authed">> => false}}
     end.
 
 parse_input(Data) ->
@@ -88,7 +88,7 @@ We need to create the controller now and the view for this, `my_first_nova_login
 -export([index/1]).
 
 index(#{<<"authed">> := true,
-	     <<"username">> := Username}) ->
+	      <<"username">> := Username}) ->
     {ok, [{message, <<"Welcome ", Username/binary, "!">>}]};
 index(Req, #{<<"authed">> := false}) ->
     {redirect, "/"}.
