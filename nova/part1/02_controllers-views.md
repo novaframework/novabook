@@ -20,14 +20,24 @@ What do we have in this module?
 %% What functions that are exported from this module.
 -export([
          index/1
-        ]). 
+        ]).
 %% Function header.
-index(_) -> 
+index(_) ->
     %% Returns a tuple with ok and a proplists (Key-Value list)
-    {ok, [{message, "Nova is running!"}]}. 
+    {ok, [{message, "Nova is running!"}]}.
 
 ```
+An Erlang module is structured first to have the module declaration to say that it is a module this is done with the first line `-module(Module)`. Comments are done with `%`, good rule is to use %% when comment on a line and % if you comment after code.
 
+```Erlang
+%% This is a comment
+my_function() ->
+    ok. % Comment after code
+```
+
+After this we have the export that will export functions outside the module so other can modules can use it or you can use it from a shell.
+
+Then we have the index functions that in this take one argument.
 
 If you change the message it will also be changed on the site.
 
@@ -43,5 +53,5 @@ Our view my_first_nova_main_view.dtl:
 </html>
 ```
 
-From the controller we will get `Nova is running!`. That we will template into `{{message}}` that will show it on the homepage.
+From the controller we will get `Nova is running!`. That we will template into `{{message}}` that will show it on the homepage. What will happen here is that `{{ message }}` will be changed to the text that we get from our index function in section about the controller above. If we change the text it will also be added to the page.
 

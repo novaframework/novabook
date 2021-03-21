@@ -2,12 +2,12 @@
 
 First we will generate a new Nova app that we will work with.
 
-```
+```Bash
 rebar3 new nova my_first_nova
 ```
 You will see that the template setup the directory and configurations to get first app running.
 
-```
+```Bash
 ===> Writing my_first_nova/config/sys.config
 ===> Writing my_first_nova/priv/my_first_nova.routes.erl
 ===> Writing my_first_nova/src/my_first_nova.app.src
@@ -18,7 +18,7 @@ You will see that the template setup the directory and configurations to get fir
 ===> Writing my_first_nova/src/views/my_first_nova_main.dtl
 ```
 When this is installed you can run:
-```
+```Bash
 rebar3 shell
 ```
 
