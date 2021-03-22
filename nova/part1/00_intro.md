@@ -1,4 +1,4 @@
-# Part 1 #
+# Part 1 - View-Controller#
 
 In this section I will show how you can use Nova as a view-controller framework. We will use Nova views that uses erlydtl (Djangot templating).
 

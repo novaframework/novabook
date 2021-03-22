@@ -1,3 +1,11 @@
+---
+title: Build web application with Nova
+
+header-includes:
+ - \usepackage{fvextra}
+ - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+---
+
 \newpage{}
 
 # Nova #
@@ -23,11 +31,11 @@ You will need erlang 22+ installed and rebar3.
 ## Installing Nova ##
 
 Via curl
-```
+```Bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)"
 ```
 Via wget
-```
+```Bash
 sh -c "$(wget -O- https://raw.githubusercontent.com/novaframework/nova/master/tools/install.sh)"
 ```
 

@@ -39,9 +39,9 @@ get_merge_files() ->
 
 output_html(Files) ->
     io:format("Generating html file...~n"),
-    os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/novabook.html --highlight-style tango"),
-    io:format("Done generating html file...~n").
+    Result = os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/novabook.html --highlight-style tango"),
+    io:format("Html done...~nResult: ~p~n", [Result]).
 output_pdf(Files) ->
     io:format("Generating pdf file...~n"),
-    os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t pdf  -s -o output/novabook.pdf --highlight-style tango"),
-    io:format("Done generating pdf file...~n").
+    Result = os:cmd("pandoc --pdf-engine=xelatex --toc " ++ Files ++ " -f markdown -t pdf  -s -o output/novabook.pdf --highlight-style tango"),
+    io:format("Pdf done...~nResult: ~p~n", [Result]).

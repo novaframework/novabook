@@ -1,8 +1,3 @@
----
-title: Build web application with Nova
-
----
-
 # Erlang #
 
 ## Erlang books ##
