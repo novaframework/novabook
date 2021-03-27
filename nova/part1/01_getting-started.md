@@ -3,33 +3,35 @@
 First we will generate a new Nova app that we will work with.
 
 ```Bash
-rebar3 new nova my_first_nova
+rebar3 new nova user_management
 ```
 You will see that the template setup the directory and configurations to get first app running.
 
 ```Bash
-===> Writing my_first_nova/config/sys.config
-===> Writing my_first_nova/priv/my_first_nova.routes.erl
-===> Writing my_first_nova/src/my_first_nova.app.src
-===> Writing my_first_nova/src/my_first_nova_app.erl
-===> Writing my_first_nova/src/my_first_nova_sup.erl
-===> Writing my_first_nova/src/controllers/my_first_nova_main_controller.erl
-===> Writing my_first_nova/rebar.config
-===> Writing my_first_nova/src/views/my_first_nova_main.dtl
+===> Writing user_management/config/dev_sys.config
+===> Writing user_management/config/prod_sys.config
+===> Writing user_management/priv/user_management.routes.erl
+===> Writing user_management/src/user_management.app.src
+===> Writing user_management/src/user_management_app.erl
+===> Writing user_management/src/user_management_sup.erl
+===> Writing user_management/src/controllers/user_management_main_controller.erl
+===> Writing user_management/rebar.config
+===> Writing user_management/config/vm.args
+===> Writing user_management/src/views/user_management_main.dtl
 ```
 When this is installed you can run:
 ```Bash
 rebar3 shell
 ```
 
-This will start my_first_nova application with a shell.
+This will start user_management application with a shell.
 Now open a browser and go to `http://localhost:8080` you should see a page with the text `Nova is running!`
 
 ### What did we get? ###
 
 Nova app have some configuration files, route file, controllers and views.
 
-First the sys.config, this handle the my_first_nova application.
+First the sys.config, this handle the user_management application.
 ```erlang
 %% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-
 

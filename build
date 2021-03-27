@@ -1,47 +1,87 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
 %%! -smp enable -sname factorial -mnesia debug verbose
-main([Arg]) ->
-    MergedList = get_merge_files(),
-    JoinedString = string:join(MergedList, " "),
-    case Arg of
-        "all" ->
-            output_html(JoinedString),
-            output_pdf(JoinedString),
-            ok;
-        "html" -> output_html(JoinedString);
-        "pdf" -> output_pdf(JoinedString);
-        Arg -> io:format("Arg ~p not supported~n", [Arg])
-    end.
+main([]) ->
+    JoinedString = get_all_files(),
+    output_html(JoinedString),
+    output_pdf(JoinedString),
+    ok;
+main([Format, Type]) ->
+    output(Format, Type).
 
-get_merge_files() ->
-    PartsList = ["part1", "part2", "part3"],
-    {ok, ErlangFiles} = file:list_dir("./erlang"),
-    NewErlangFiles = ["./erlang/" ++ File || File <- ErlangFiles],
-    {ok, NovaFiles} = file:list_dir("./nova"),
-    NovaFiles2 = NovaFiles -- PartsList,
-    NewNovaFiles = ["./nova/" ++ File || File <- NovaFiles2],
-    {ok, Part1Files} = file:list_dir("./nova/part1"),
-    NewPart1Files = ["./nova/part1/" ++ File || File <- Part1Files],
-    {ok, Part2Files} = file:list_dir("./nova/part2"),
-    NewPart2Files = ["./nova/part2/" ++ File || File <- Part2Files],
-    {ok, Part3Files} = file:list_dir("./nova/part3"),
-    NewPart3Files = ["./nova/part3/" ++ File || File <- Part3Files],
-    {ok, BeamFiles} = file:list_dir("./otherbeamlang"),
-    NewBeamFiles = ["./otherbeamlang/" ++ File || File <- BeamFiles],
-    %% Merging all list files together.
-    NewNovaFiles ++
-    NewPart1Files ++
-    NewPart2Files ++
-    NewPart3Files ++
-    NewErlangFiles ++
-    NewBeamFiles.
+output("html", Type) ->
+    Files = get_files(Type),
+    output_html(Files, Type);
+output("pdf", Type) ->
+    Files = get_files(Type),
+    output_pdf(Files, Type).
 
 output_html(Files) ->
+    output_html(Files, "novabook").
+
+output_html(Files, Name) ->
     io:format("Generating html file...~n"),
-    Result = os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/novabook.html --highlight-style tango"),
+    Result = os:cmd("pandoc --toc " ++ Files ++ " -f markdown -t html  -s -o output/" ++ Name ++ ".html --highlight-style tango"),
     io:format("Html done...~nResult: ~p~n", [Result]).
 output_pdf(Files) ->
+    output_pdf(Files, "novabook").
+
+output_pdf(Files, Name) ->
     io:format("Generating pdf file...~n"),
-    Result = os:cmd("pandoc --pdf-engine=xelatex --toc " ++ Files ++ " -f markdown -t pdf  -s -o output/novabook.pdf --highlight-style tango"),
+    Result = os:cmd("pandoc --pdf-engine=xelatex --toc " ++ Files ++ " -f markdown -t pdf  -s -o output/" ++ Name ++ ".pdf --highlight-style tango"),
     io:format("Pdf done...~nResult: ~p~n", [Result]).
+
+get_all_files() ->
+    Files = ["./setup.md"] ++
+            nova_files() ++
+            part1_files() ++
+            part2_files() ++
+            part3_files() ++
+            erlang_files() ++
+            beam_files(),
+    string:join(Files, " ").
+
+get_files("part1") ->
+    Files = ["./setup.md"] ++ part1_files(),
+    string:join(Files, " ");
+get_files("part2") ->
+    Files = ["./setup.md"] ++ part2_files(),
+    string:join(Files, " ");
+get_files("part3") ->
+    Files = ["./setup.md"] ++ part3_files(),
+    string:join(Files, " ");
+get_files("nova") ->
+    Files = ["./setup.md"] ++ nova_files(),
+    string:join(Files, " ");
+get_files("erlang") ->
+    Files = ["./setup.md"] ++ erlang_files(),
+    string:join(Files, " ");
+get_files("beam") ->
+    Files = ["./setup.md"] ++ beam_files(),
+    string:join(Files, " ").
+
+nova_files() ->
+    PartsList = ["part1", "part2", "part3"],
+    {ok, NovaFiles} = file:list_dir("./nova"),
+    NovaFiles2 = NovaFiles -- PartsList,
+    ["./nova/" ++ File || File <- NovaFiles2].
+
+part1_files() ->
+    {ok, NovaFiles} = file:list_dir("./nova/part1"),
+    ["./nova/part1/" ++ File || File <- NovaFiles].
+
+part2_files() ->
+    {ok, NovaFiles} = file:list_dir("./nova/part2"),
+    ["./nova/part2/" ++ File || File <- NovaFiles].
+    
+part3_files() ->
+    {ok, NovaFiles} = file:list_dir("./nova/part3"),
+    ["./nova/part3/" ++ File || File <- NovaFiles].  
+    
+erlang_files() ->
+    {ok, ErlangFiles} = file:list_dir("./erlang"),
+    ["./erlang/" ++ File || File <- ErlangFiles].
+
+beam_files() ->
+    {ok, BeamFiles} = file:list_dir("./otherbeamlang"),
+    ["./otherbeamlang/" ++ File || File <- BeamFiles].

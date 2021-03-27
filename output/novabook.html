@@ -339,22 +339,24 @@
 <p>In the end of this section we will have a web application where you can signup, login and list users and edit a user.</p>
 <h2 id="getting-started">Getting Started</h2>
 <p>First we will generate a new Nova app that we will work with.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rebar3</span> new nova my_first_nova</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rebar3</span> new nova user_management</span></code></pre></div>
 <p>You will see that the template setup the directory and configurations to get first app running.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/config/sys.config</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/priv/my_first_nova.routes.erl</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/src/my_first_nova.app.src</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/src/my_first_nova_app.erl</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/src/my_first_nova_sup.erl</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/src/controllers/my_first_nova_main_controller.erl</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/rebar.config</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing my_first_nova/src/views/my_first_nova_main.dtl</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/config/dev_sys.config</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/config/prod_sys.config</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/priv/user_management.routes.erl</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/src/user_management.app.src</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/src/user_management_app.erl</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/src/user_management_sup.erl</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/src/controllers/user_management_main_controller.erl</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/rebar.config</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/config/vm.args</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">===</span><span class="op">&gt;</span> Writing user_management/src/views/user_management_main.dtl</span></code></pre></div>
 <p>When this is installed you can run:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rebar3</span> shell</span></code></pre></div>
-<p>This will start my_first_nova application with a shell. Now open a browser and go to <code>http://localhost:8080</code> you should see a page with the text <code>Nova is running!</code></p>
+<p>This will start user_management application with a shell. Now open a browser and go to <code>http://localhost:8080</code> you should see a page with the text <code>Nova is running!</code></p>
 <h3 id="what-did-we-get">What did we get?</h3>
 <p>Nova app have some configuration files, route file, controllers and views.</p>
-<p>First the sys.config, this handle the my_first_nova application.</p>
+<p>First the sys.config, this handle the user_management application.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode erlang"><code class="sourceCode erlang"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">%% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">[</span></span>
