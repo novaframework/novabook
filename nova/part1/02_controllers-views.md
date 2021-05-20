@@ -12,11 +12,12 @@ When we configure routing we will poing the module and function to the controlle
 This is a basic controller that will return back a proplist back to the view. In this case it will return with a message that the view will populate.
 
 What do we have in this module?
+---
 
-
+***Erlang***
 ```erlang
 %% This is the module declaration
--module(my_first_nova_main_controller).
+-module(user_management_main_controller).
 %% What functions that are exported from this module.
 -export([
          index/1
@@ -27,6 +28,25 @@ index(_) ->
     {ok, [{message, "Nova is running!"}]}.
 
 ```
+---
+
+***LFE***
+```Lisp
+(defmodule user_management_main_controller
+  (export
+   (index 1)))
+
+(include-lib "logjam/include/logjam.hrl")
+
+(defun index
+  ;;
+  ;; GET Handler
+  ;;
+  ((`#m(req #m(method #"GET")))
+    `#(ok (#(message "nova is running!")))))
+```
+---
+
 An Erlang module is structured first to have the module declaration to say that it is a module this is done with the first line `-module(Module)`. Comments are done with `%`, good rule is to use %% when comment on a line and % if you comment after code.
 
 ```Erlang
