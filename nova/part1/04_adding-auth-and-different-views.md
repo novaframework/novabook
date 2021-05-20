@@ -81,9 +81,11 @@ bstring is a module that works in the same way as strings in erlang OTP library.
 When we return a tuple with {true, map()}, the map will be passed to the controller as a second argument. If we hada rest api or want to send back a 401 to the one that did the request we return false in our auth module. But in this case we wan't to redirect back to `/` if you pass in wrong credentials. If we did enter correct password and username we are going to show `Welcome USERNAME!`.
 
 We need to create the controller now and the view for this, `my_first_nova_login_controller.erl` in `src/controllers/`.
+---
 
+***Erlang***
 ```erlang
--module(my_first_nova_login_controller).
+-module(user_management_login_controller).
 
 -export([index/1]).
 
@@ -94,6 +96,13 @@ index(Req, #{<<"authed">> := false}) ->
     {redirect, "/"}.
 
 ```
+---
+
+***LFE***
+```Lisp
+```
+---
+
 In the controller we have a index function that take two arguments. First one is a cowboy req the other is nova state.
 
 And then the view `my_first_nova_login.dtl` should be created in `src/views/`

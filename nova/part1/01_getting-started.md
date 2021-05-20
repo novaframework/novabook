@@ -2,10 +2,15 @@
 
 First we will generate a new Nova app that we will work with.
 
+You will see that the template setup the directory and configurations to get first app running.
+
+This will start user_management application with a shell.
+Now open a browser and go to `http://localhost:8080` you should see a page with the text `Nova is running!`
+
+***Erlang***
 ```Bash
 rebar3 new nova user_management
 ```
-You will see that the template setup the directory and configurations to get first app running.
 
 ```Bash
 ===> Writing user_management/config/dev_sys.config
@@ -23,9 +28,29 @@ When this is installed you can run:
 ```Bash
 rebar3 shell
 ```
+---
+***LFE***
+```Bash
+rebar3 new nova_lfe user_management
+```
 
-This will start user_management application with a shell.
-Now open a browser and go to `http://localhost:8080` you should see a page with the text `Nova is running!`
+```Bash
+===> Writing user_management/config/sys.config
+===> Writing user_management/priv/user_management.routes.lfe
+===> Writing user_management/src/user_management.app.src
+===> Writing user_management/src/app.lfe
+===> Writing user_management/src/sup.lfe
+===> Writing user_management/src/controllers/user_management_main_controller.lfe
+===> Writing user_management/rebar.config
+===> Writing user_management/config/vm.args
+===> Writing user_management/src/views/user_management_main.dtl
+```
+When this is installed you can run:
+```Bash
+rebar3 compile
+rebar3 lfe repl
+```
+---
 
 ### What did we get? ###
 
@@ -62,6 +87,10 @@ Example:
 > You want to get a user,for each request you want to have a correlation id. This can then be generated in a pre plugin that adds it to the header and pass it on. Then it can be used in the controller to keep track of what goes on.
 
 Then we have the route file my_first_nova.routes.erl in this you will specify all endpoints or static assets that you want to expose.
+
+---
+
+***Erlang*** 
 ```erlang
 #{prefix => "",
   security => false,
@@ -73,6 +102,18 @@ Then we have the route file my_first_nova.routes.erl in this you will specify al
             ]
 }.
 ```
+---
+
+***LFE***
+```Lisp
+#m(prefix ""
+   security false
+   routes (#("/"
+             #(user_management_main_controller index)
+             #M(methods (get)))))
+```
+---
+
 Prefix is if you want to have something before the routes. Say "v1" then you can add it to prefix.
 
 Security is if you want any way to auth the request. Change security to {Module, Function} instead of false if you want to have a auth module.
